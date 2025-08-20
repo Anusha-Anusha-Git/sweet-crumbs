@@ -156,6 +156,23 @@
 
 
 
+<!-- Sidebar Cart -->
+<div id="cartSidebar" class="cart-sidebar">
+  <h2>Your Cart</h2>
+  <ul id="cartItems"></ul>
+  <p id="cartTotal">Total: Rs 0</p>
+  <button id="checkoutBtn">Checkout</button>
+  <span class="close-btn" onclick="toggleCart()">×</span>
+</div>
+
+<!-- Floating Cart Button -->
+<button id="cartBtn" onclick="toggleCart()">
+  🛒 Cart <span id="cartCount">0</span>
+</button>
+
+<!-- Toast notification -->
+<div id="toast" class="toast">Added to cart!</div>
+
 
 </main>
 <footer class="site-footer">
