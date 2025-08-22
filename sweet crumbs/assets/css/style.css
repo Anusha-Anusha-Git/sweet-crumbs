@@ -128,31 +128,7 @@ fieldset.toppings{ border:1px dashed rgba(0,0,0,.12); padding: 12px; border-radi
 fieldset.toppings label{ display:inline-flex; align-items:center; gap:6px; margin:6px 10px 0 0 }
 
 .builder-preview{ display:flex; flex-direction:column; gap:12px; align-items:center }
-.cake-preview{
-  width: 100%;
-  max-width: 360px;
-  height: 300px;
-  position: relative;
-  display:grid; place-items:end center;
-  background: linear-gradient(to bottom, #ffffff, #fff9f1);
-  border: 1px solid rgba(0,0,0,.06);
-  border-radius: 18px;
-  box-shadow: inset 0 0 30px rgba(0,0,0,.03);
-}
-.cake-layer{
-  width: 70%;
-  height: 34px;
-  border-radius: 12px 12px 10px 10px;
-  margin: 2px auto;
-  box-shadow: 0 6px 12px rgba(0,0,0,.08);
-  border: 1px solid rgba(0,0,0,.08);
-}
-.cake-icing{
-  position:absolute; top: 24px; left:50%; transform: translateX(-50%);
-  width: 72%; height: 18px; border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.08);
-  border: 1px solid rgba(0,0,0,.08);
-}
+
 .cake-drip{
   position:absolute; top: 40px; left:50%; transform: translateX(-50%);
   width: 72%; height: 10px; border-radius:0 0 12px 12px; opacity:.9;
@@ -184,16 +160,16 @@ fieldset.toppings label{ display:inline-flex; align-items:center; gap:6px; margi
 }
 
 #cakePreview {
+  width: 250px;    /* fixed container width */
+  height: 400px;   /* fixed container height */
   display: flex;
   flex-direction: column-reverse; /* stack from bottom */
-  justify-content: flex-start;
-  align-items: center;
-  height: 400px;   /* overall cake box height */
-  width: 250px;    /* cake width */
+  justify-content: center;        /* center vertically */
+  align-items: center;            /* center horizontally */
   margin: auto;
   position: relative;
   background: #f9f5f0;
-  border-radius: 50% / 10%;  /* gives oval background */
+  border-radius: 50% / 10%;
   box-shadow: 0 5px 15px rgba(0,0,0,0.15) inset;
   overflow: hidden;
 }
@@ -201,9 +177,24 @@ fieldset.toppings label{ display:inline-flex; align-items:center; gap:6px; margi
 .cake-layer {
   width: 200px;
   height: 40px;
-  background-color: #d2a679;
   border-radius: 5px;
-  margin-top: 2px;
+  margin: 2px auto;
+  background-color: #d2a679; /* default sponge */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  border: 1px solid rgba(0,0,0,0.08);
+  background: linear-gradient(to bottom, #dba96b, #b57c4a);
+  animation: dropIn 0.5s ease;
+}
+@keyframes dropIn {
+  0% { transform: translateY(-20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.cake-filling {
+  width: 180px;
+  height: 8px;
+  margin: 0 auto;
+  border-radius: 4px;
 }
 
 .icing-layer {
@@ -213,9 +204,34 @@ fieldset.toppings label{ display:inline-flex; align-items:center; gap:6px; margi
   border-radius: 5px;
 }
 
-.icing-layer.chocolate { background-color: #5c3d2e; }
-.icing-layer.vanilla   { background-color: #f3e5ab; }
-.icing-layer.strawberry{ background-color: #ffb6c1; }
+.icing-layer.buttercream { background-color: #fff5e6; }
+.icing-layer.ganache     { background-color: #5c3d2e;
+   background: linear-gradient(to bottom, #5c3d2e, #3e2723); }
+.icing-layer.meringue    { background-color: #fefefe; }
+
+.sponge {
+  width: 180px;
+  height: 40px;
+  background: linear-gradient(to bottom, #e6b877, #c68c53);
+  border-radius: 10px;
+  margin: 2px 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+
+.cake-icing {
+  width: 200px;       /* same as cake layer */
+  height: 20px;       /* thickness of icing */
+  border-radius: 5px;
+  margin: 0 auto 2px; /* margin below to separate layers slightly */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+
+.top-icing {
+  height: 20px; /* a bit thicker for the top */
+  border-radius: 12px 12px 6px 6px;
+}
 
 .topping-container {
   display: flex;
@@ -224,17 +240,23 @@ fieldset.toppings label{ display:inline-flex; align-items:center; gap:6px; margi
   margin-top: 5px;
 }
 
-.topping {
+.cake-topping {
+  position: absolute;
   width: 30px;
   height: 30px;
-  margin: 2px;
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
   background-position: center;
+  top: 10px; /* relative to icing top */
+  z-index: 100;  
 }
 
-.topping.sprinkles { background-image: url('assets/sprinkles.png'); }
-.topping.cherry    { background-image: url('assets/cherry.png'); }
-.topping.macarons  { background-image: url('assests/macarons.png'); }
+.cake-topping.macarons { background-image: url('assets/img/.macarons.svg'); }
+.cake-topping.cherry    { background-image: url('assets/img/cherry.png'); }
+.cake-topping.berries   { background-image: url('assets/img/berries.png'); }
+.cake-topping.goldleaf  { background-image: url('assets/img/goldleaf.png'); }
+
+
 
 #billSection {
   display: none;
