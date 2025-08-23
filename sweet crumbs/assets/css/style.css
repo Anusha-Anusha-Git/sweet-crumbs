@@ -210,20 +210,41 @@ fieldset.toppings label{ display:inline-flex; align-items:center; gap:6px; margi
 .icing-layer.meringue    { background-color: #fefefe; }
 
 .sponge {
-  width: 180px;
-  height: 40px;
-  background: linear-gradient(to bottom, #e6b877, #c68c53);
+  width: 200px;
+  height: 50px;
+  margin: 5px auto;
   border-radius: 10px;
-  margin: 2px 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.sponge::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  background: url('https://www.transparenttextures.com/patterns/noise.png'); 
+  opacity: 0.3;
+}
+
+.vanilla {
+  background: linear-gradient(#f3e5ab, #e6d48a);
+}
+
+.chocolate {
+  background: linear-gradient(#6b3e26, #4e2d1a);
+}
+
+.redvelvet {
+  background: linear-gradient(#b22222, #8b1a1a);
 }
 
 
 .cake-icing {
-  width: 200px;       /* same as cake layer */
-  height: 20px;       /* thickness of icing */
+  position: relative; /* needed so toppings are positioned on top of it */
+  width: 200px;
+  height: 20px;
+  margin-top: -5px;
   border-radius: 5px;
-  margin: 0 auto 2px; /* margin below to separate layers slightly */
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
@@ -240,21 +261,39 @@ fieldset.toppings label{ display:inline-flex; align-items:center; gap:6px; margi
   margin-top: 5px;
 }
 
-.cake-topping {
+.topping {
   position: absolute;
-  width: 30px;
-  height: 30px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  top: 10px; /* relative to icing top */
-  z-index: 100;  
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  top: 60px; /* aligns with ganache top */
+  position: absolute;
 }
 
-.cake-topping.macarons { background-image: url('assets/img/.macarons.svg'); }
-.cake-topping.cherry    { background-image: url('assets/img/cherry.png'); }
-.cake-topping.berries   { background-image: url('assets/img/berries.png'); }
-.cake-topping.goldleaf  { background-image: url('assets/img/goldleaf.png'); }
+.berries { background: red; }
+.macarons { background: pink; }
+.pistachio { background: green; }
+.goldleaf { background: goldenrod; }
+
+.berries {
+  background: radial-gradient(circle at 30% 30%, #ffaaaa, #ff5c5c);
+  background: #ff7b7b;
+}
+
+.macarons {
+  background: radial-gradient(circle at 30% 30%, #ffd6eb, #f8a8d0);
+  background: #f8b4d9;
+}
+
+.pistachio {
+  background: radial-gradient(circle at 30% 30%, #d6f5c2, #9edc85);
+  background: #b5e0a6;
+}
+
+.goldleaf {
+  background: radial-gradient(circle at 30% 30%, #fff7b2, #f1d95a);
+  background: #f6e27a;
+}
 
 
 

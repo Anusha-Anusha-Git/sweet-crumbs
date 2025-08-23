@@ -45,6 +45,21 @@ function calcPrice() {
   return total;
 }
 
+function lightenColor(hex, percent) {
+  // convert hex → RGB
+  let num = parseInt(hex.replace("#", ""), 16),
+      r = (num >> 16) + percent,
+      g = ((num >> 8) & 0x00FF) + percent,
+      b = (num & 0x0000FF) + percent;
+
+  // clamp values between 0–255
+  r = r < 255 ? (r < 0 ? 0 : r) : 255;
+  g = g < 255 ? (g < 0 ? 0 : g) : 255;
+  b = b < 255 ? (b < 0 ? 0 : b) : 255;
+
+  return `rgb(${r},${g},${b})`;
+}
+
 function renderPreview() {
   preview.innerHTML = ''; // clear previous cake
 
@@ -58,6 +73,12 @@ function renderPreview() {
   const fillingColor = colorMap[filling] || '#fff';
   const icingColor = colorMap[icing] || '#fff';
 
+  // size scaling
+  const cakeSizeMap = {
+    "6": 0.7,
+    "8": 0.9,
+    "10": 1.0
+  };
   const scale = cakeSizeMap[size] || 1;
   const baseWidth = 200;           // base cake width
   const layerWidth = baseWidth * scale;
@@ -100,43 +121,47 @@ function renderPreview() {
   icingDiv.style.margin = '0';
   preview.appendChild(icingDiv);
 
-  // Add toppings on top of the icing (not floating)
-const topLayerIcing = document.querySelector('.cake-icing:last-of-type');
+// Add 4 toppings aligned on top of the icing
+const topLayerIcing = preview.querySelector('.cake-icing:last-of-type');
 if (topLayerIcing) {
+    const icingWidth = topLayerIcing.offsetWidth;
+    const icingHeight = topLayerIcing.offsetHeight;
+
     document.querySelectorAll("input[name='toppings']:checked").forEach(t => {
-        const count = t.value === 'macarons' ? 5 : 1; // 5 macarons, 1 for others
+        const count = 4; // 4 toppings
+        const toppingSize = 20; // diameter of circle
+        const gap = (icingWidth - count * toppingSize) / (count + 1); // evenly distribute
+
         for (let i = 0; i < count; i++) {
             const topDiv = document.createElement("div");
             topDiv.className = `cake-topping ${t.value}`;
-            topDiv.style.width = "30px";
-            topDiv.style.height = "30px";
-            topDiv.style.backgroundImage = `url('assets/img/${t.value}.png')`;
-            topDiv.style.backgroundSize = "cover";
-            topDiv.style.backgroundPosition = "center";
+            topDiv.style.width = `${toppingSize}px`;
+            topDiv.style.height = `${toppingSize}px`;
+            topDiv.style.borderRadius = "50%"; // circle
             topDiv.style.position = "absolute";
 
-            // Random positions relative to topLayerIcing
-            const icingRect = topLayerIcing.getBoundingClientRect();
-            const previewRect = preview.getBoundingClientRect();
-            const left = Math.random() * (icingRect.width - 30);
-            const top = 0; // directly on top of icing
+            // Set color or image
+            if (t.value === "macarons") topDiv.style.background = "#d17fa3";
+            if (t.value === "berry") topDiv.style.background = "#4b2c5e";
+            if (t.value === "cherry") topDiv.style.background = "#c62828";
+            if (t.value === "pistachio") topDiv.style.background = "#6b8e23";
+            if (t.value === "goldleaf") topDiv.style.background = "#d4af37";
+
+            // Horizontal position: evenly spaced
+            const left = gap + i * (toppingSize + gap);
+            // Vertical position: right on top of icing
+            const top = topLayerIcing.offsetTop + icingHeight / 2 - toppingSize / 2;
 
             topDiv.style.left = `${left}px`;
-            topDiv.style.top = `${topLayerIcing.offsetTop}px`;
+            topDiv.style.top = `${top}px`;
 
             preview.appendChild(topDiv);
         }
     });
 }
 
+
 }
-
-const cakeSizeMap = {
-  "6": 0.7,   // 70% width of container
-  "8": 0.9,   // 90% width
-  "10": 1.0   // slightly larger than container
-};
-
 
 function updateChips() {
   chipSize.textContent = form.size.value + '"';
@@ -235,5 +260,19 @@ window.addEventListener('load', () => {
 
 
 
+// Make toppings behave like radio buttons
+const toppingCheckboxes = document.querySelectorAll('input[name="toppings"]');
+toppingCheckboxes.forEach(cb => {
+  cb.addEventListener('change', function() {
+    if (this.checked) {
+      // Uncheck all other checkboxes
+      toppingCheckboxes.forEach(other => {
+        if (other !== this) other.checked = false;
+      });
+    }
+    updateAll(); // redraw cake preview when selection changes
+  });
+});
 
+updateAll(); // initial draw
 
