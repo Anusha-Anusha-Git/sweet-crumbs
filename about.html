@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us — Pâtisserie Étoile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <!-- AOS CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+  <script defer src="assets/js/main.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fffaf7;
+      color: #3a2e2e;
+      margin: 0;
+      padding: 0;
+    }
+
+    .about {
+      padding: 3rem 1.5rem;
+      background: #fffaf7;
+    }
+
+    .about h1 {
+      font-size: 3rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      font-family: 'Marcellus', serif;
+      color: #6b3e2e;
+    }
+
+    .about-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1000px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(107, 62, 46, 0.15);
+      overflow: hidden;
+    }
+
+    .about-image {
+      flex: 1;
+      min-height: 300px;
+      background: url("assets/img/about-us.jpg") center/cover no-repeat;
+    }
+
+    .about-text {
+      flex: 1;
+      padding: 2rem 2.5rem;
+      line-height: 1.7;
+      font-size: 1.05rem;
+      color: #4a3b3b;
+    }
+
+    @media (max-width: 768px) {
+      .about-card {
+        flex-direction: column;
+      }
+      .about-image {
+        width: 100%;
+        height: 200px;
+      }
+      .about-text {
+        text-align: center;
+      }
+    }
+
+    .team {
+      padding: 3rem 1.5rem;
+      background: #fdf2ed;
+    }
+
+    .team h2 {
+      text-align: center;
+      font-family: 'Marcellus', serif;
+      font-size: 2.2rem;
+      margin-bottom: 2rem;
+      color: #6b3e2e;
+    }
+
+    .team-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .team-card {
+      background: #fff;
+      border-radius: 15px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 320px; /* ensures equal height */
+    }
+
+    .team-card:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 12px 25px rgba(107, 62, 46, 0.18);
+    }
+
+    .team-card img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 50%; /* makes images circular */
+      margin-bottom: 1rem;
+      border: 4px solid #fdf2ed; /* optional frame */
+    }
+
+    .team-card h3 {
+      margin: 0.5rem 0 0.2rem;
+      font-size: 1.3rem;
+      font-family: 'Marcellus', serif;
+      color: #3a2e2e;
+    }
+
+    .team-card p {
+      font-size: 1rem;
+      color: #7a5f57;
+      margin-bottom: 0.8rem;
+    }
+
+    .linkedin-btn {
+      display: inline-block;
+      margin-top: auto;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: #c58b72;
+      color: white;
+      font-size: 0.9rem;
+      transition: background 0.3s ease, transform 0.2s ease;
+      text-decoration: none;
+    }
+
+    .linkedin-btn:hover {
+      background: #a96c54;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="index.html">
+    <img src="assets/img/logo.svg" alt="Pâtisserie Étoile logo" class="logo"/>
+    <span>Pâtisserie Étoile</span>
+  </a>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="about.html" class="highlight">About</a>
+    <a href="menu.html">Menu</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="build.html">Build a Cake</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<main>
+  <!-- About Us Section -->
+  <section class="about" data-aos="fade-up">
+    <div class="container">
+      <h1 data-aos="fade-up">About Us</h1>
+      <div class="about-card" data-aos="fade-up" data-aos-delay="200">
+        <!-- Left: Image -->
+        <div class="about-image" data-aos="fade-right" data-aos-delay="400">
+          <img src="_.jpeg" alt="Our Bakery" />
+        </div>
+        <!-- Right: Text -->
+        <div class="about-text" data-aos="fade-left" data-aos-delay="600">
+          <p>At Pâtisserie Étoile, every bite tells a story. From the soft layers of our cakes to the delicate crunch of our pastries, each creation is a reflection of our dedication to quality and artistry. We believe that baking is more than just mixing ingredients—it’s about creating moments of joy, comfort, and togetherness.</p>
+          <p>Whether you’re celebrating life’s big milestones or simply indulging in a sweet escape, Elegant Bakery is here to make your moments extra special. From classic favorites to modern delights, our menu is designed to surprise, delight, and keep you coming back for more.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section class="team" data-aos="fade-up">
+    <div class="container">
+      <h2 data-aos="fade-up">Our Team</h2>
+      <div class="team-container">
+
+        <div class="team-card" data-aos="fade-up" data-aos-delay="100">
+          <img src="User pfp.jpeg" alt="Team Member">
+          <h3>Anusha Shrestha</h3>
+          <p>Head Baker</p>
+          <a href="https://www.linkedin.com/in/anusha-shrestha-29a38031b/" target="_blank" class="linkedin-btn">LinkedIn</a>
+        </div>
+
+        <div class="team-card" data-aos="fade-up" data-aos-delay="200">
+          <img src="User pfp.jpeg" alt="Team Member">
+          <h3>Deekshya Rai</h3>
+          <p>Pastry Chef</p>
+          <a href="https://www.linkedin.com/public-profile/settings?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_self_edit_contact-info%3BGTvLrDDXQuGjiiqEEr7tig%3D%3D" target="_blank" class="linkedin-btn">LinkedIn</a>
+        </div>
+
+        <div class="team-card" data-aos="fade-up" data-aos-delay="300">
+          <img src="User pfp.jpeg" alt="Team Member">
+          <h3>Stuti Upadhaya</h3>
+          <p>Manager</p>
+          <a href="https://www.linkedin.com/in/stuti-upadhyay-aa696a371" target="_blank" class="linkedin-btn">LinkedIn</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" data-aos="fade-up">
+  <div class="footer-inner">
+    <p>© 2025 Pâtisserie Étoile. Crafted with love.</p>
+    <p class="muted">Kathmandu · Open daily 8:00–20:00</p>
+  </div>
+</footer>
+
+<!-- AOS JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+  AOS.init({
+    duration: 1000,
+    once: true
+  });
+</script>
+</body>
+</html>

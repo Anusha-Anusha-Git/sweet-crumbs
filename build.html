@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Build Your Own Cake — Sweet Crumbs</title>
+  <title>Build Your Own Cake — Pâtisserie Étoile</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css" />
   <script defer src="assets/js/main.js"></script>
   <script defer src="assets/js/builder.js"></script>
-</headg>
+</head>
 <body>
 <header class="site-header">
   <a class="brand" href="index.html">
     <img src="assets/img/logo.svg" alt="Pâtisserie Étoile logo" class="logo"/>
-    <span>Sweet Crumbs</span>
+    <span>Pâtisserie Étoile</span>
   </a>
   <nav class="nav">
     <a href="index.html">Home</a>
@@ -51,8 +51,8 @@
     <label>Sponge
       <select name="sponge">
         <option value="vanilla" data-price="0">Vanilla</option>
-        <option value="chocolate" data-price="200">Chocolate (+200)</option>
-        <option value="redvelvet" data-price="250">Red Velvet (+250)</option>
+        <option value="chocolate" data-price="100">Chocolate (+100)</option>
+        <option value="redvelvet" data-price="150">Red Velvet (+150)</option>
         <option value="pistachio" data-price="180">Pistachio (+180)</option>
       </select>
     </label>
@@ -69,8 +69,8 @@
     <label>Icing
       <select name="icing">
         <option value="buttercream" data-price="0">Buttercream</option>
-        <option value="cganache" data-price="160">Chocolate Ganache (+160)</option>
-        <option value="royalicing" data-price="120">Royal Icing (+120)</option>
+        <option value="ganache" data-price="160">Ganache (+160)</option>
+        <option value="meringue" data-price="120">Meringue (+120)</option>
       </select>
     </label>
 
@@ -87,15 +87,7 @@
       <div class="muted small">Prices are illustrative for demo.</div>
     </div>
 
-      
-   <button type="reset" class="btn ghost">Reset</button>
-  <button type="button" id="generateBill" class="btn ghost">Generate Bill</button>
-
-<div id="billSection">
-  <div id="billContent"></div>
-</div>
-
-
+    <button type="reset" class="btn ghost">Reset</button>
   </form>
 
   <div class="builder-preview card soft">
@@ -113,7 +105,7 @@
 </main>
 <footer class="site-footer">
   <div class="footer-inner">
-    <p>© 2025 Sweet Crumbs. Crafted with love.</p>
+    <p>© 2025 Pâtisserie Étoile. Crafted with love.</p>
     <p class="muted">Kathmandu · Open daily 8:00–20:00</p>
   </div>
 </footer>
