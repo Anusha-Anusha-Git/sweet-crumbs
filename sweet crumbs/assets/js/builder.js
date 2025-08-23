@@ -20,9 +20,9 @@ const colorMap = {
   strawberry: '#F5B7C5',
   lemoncurd: '#F7E37C',
   coffee: '#C8A585',
-  buttercream: '#FFF3E8',
-  ganache: '#5B4535',
-  meringue: '#FFF',
+  buttercream: '#F6E0C4',
+  cganache: '#5B4535',
+  royalicing: '#FFF',
 };
 
 function calcPrice() {
@@ -45,45 +45,138 @@ function calcPrice() {
   return total;
 }
 
+function lightenColor(hex, percent) {
+  // convert hex → RGB
+  let num = parseInt(hex.replace("#", ""), 16),
+      r = (num >> 16) + percent,
+      g = ((num >> 8) & 0x00FF) + percent,
+      b = (num & 0x0000FF) + percent;
+
+  // clamp values between 0–255
+  r = r < 255 ? (r < 0 ? 0 : r) : 255;
+  g = g < 255 ? (g < 0 ? 0 : g) : 255;
+  b = b < 255 ? (b < 0 ? 0 : b) : 255;
+
+  return `rgb(${r},${g},${b})`;
+}
+
 function renderPreview() {
-  preview.innerHTML = ''; // reset
+  preview.innerHTML = ''; // clear previous cake
+
   const layers = Number(form.layers.value);
   const sponge = form.sponge.value;
-  const icing = form.icing.value;
   const filling = form.filling.value;
+  const icing = form.icing.value;
+  const size = form.size.value;
 
-  // build cake layers (stacked with filling + icing between each)
-for (let i = 0; i < layers; i++) {
-  const layer = document.createElement('div');
-  layer.className = 'cake-layer';
   const spongeColor = colorMap[sponge] || '#EBD5BD';
   const fillingColor = colorMap[filling] || '#fff';
+  const icingColor = colorMap[icing] || '#fff';
 
-  // sponge + filling band
-  layer.style.background = `linear-gradient(to bottom,
-    ${spongeColor} 0%,
-    ${spongeColor} 70%,
-    ${fillingColor} 71%,
-    ${fillingColor} 75%,
-    ${spongeColor} 76%)`;
-  preview.appendChild(layer);
+  // size scaling
+  const cakeSizeMap = {
+    "6": 0.7,
+    "8": 0.9,
+    "10": 1.0
+  };
+  const scale = cakeSizeMap[size] || 1;
+  const baseWidth = 200;           // base cake width
+  const layerWidth = baseWidth * scale;
+  const layerHeight = 40;
+  const fillingHeight = 20;
+  const icingHeight = 20;
 
-  // add icing after each sponge layer
-  const icingDiv = document.createElement("div");
-  icingDiv.className = "cake-icing";
-  icingDiv.style.background = colorMap[icing] || "#fff";
+  // Create cake layers
+  for (let i = 0; i < layers; i++) {
+    // Sponge
+    const spongeDiv = document.createElement('div');
+    spongeDiv.className = 'cake-layer';
+    spongeDiv.style.width = layerWidth + 'px';
+    spongeDiv.style.height = layerHeight + 'px';
+    spongeDiv.style.background = spongeColor;
+    spongeDiv.style.borderRadius = '5px';
+    spongeDiv.style.margin = '2px 0';
+    preview.appendChild(spongeDiv);
+
+    // Filling (except after last layer)
+    if (i < layers - 1) {
+      const fillingDiv = document.createElement('div');
+      fillingDiv.className = 'cake-filling';
+      fillingDiv.style.width = layerWidth + 'px';
+      fillingDiv.style.height = fillingHeight + 'px';
+      fillingDiv.style.background = fillingColor;
+      fillingDiv.style.borderRadius = '3px';
+      fillingDiv.style.margin = '0';
+      preview.appendChild(fillingDiv);
+    }
+  }
+
+  // Top icing
+  const icingDiv = document.createElement('div');
+  icingDiv.className = 'cake-icing top-icing';
+  icingDiv.style.width = layerWidth + 'px';
+  icingDiv.style.height = icingHeight + 'px';
+  icingDiv.style.background = icingColor;
+  icingDiv.style.borderRadius = '5px';
+  icingDiv.style.margin = '0';
   preview.appendChild(icingDiv);
+
+const topLayerIcing = preview.querySelector('.cake-icing:last-of-type');
+if (topLayerIcing) {
+    const checkedTopping = document.querySelector('input[name="toppings"]:checked');
+    if (checkedTopping) {
+        const count = 5; // number of toppings
+        const toppingSize = 20; // diameter
+        const gap = 10; // horizontal gap
+        const icingWidth = topLayerIcing.offsetWidth;
+
+        // total width of all toppings including gaps
+        const totalWidth = count * toppingSize + (count - 1) * gap;
+        const startX = (icingWidth - totalWidth) / 2;
+
+        // set icing position to relative to position toppings absolutely inside
+        topLayerIcing.style.position = 'relative';
+
+        // define colors
+        function lightenColor(hex, percent) {
+            let num = parseInt(hex.replace("#", ""), 16),
+                r = (num >> 16) + percent,
+                g = ((num >> 8) & 0x00FF) + percent,
+                b = (num & 0x0000FF) + percent;
+            r = Math.min(255, Math.max(0, r));
+            g = Math.min(255, Math.max(0, g));
+            b = Math.min(255, Math.max(0, b));
+            return `rgb(${r},${g},${b})`;
+        }
+
+        let color = "#fff";
+        switch (checkedTopping.value) {
+            case "macarons": color = lightenColor("#d17fa3", 40); break;
+            case "berries": color = lightenColor("#c62828", 40); break;
+            case "pistachio": color = lightenColor("#6b8e23", 40); break;
+            case "goldleaf": color = lightenColor("#d4af37", 40); break;
+        }
+
+        for (let i = 0; i < count; i++) {
+            const topDiv = document.createElement("div");
+            topDiv.className = `cake-topping ${checkedTopping.value}`;
+            topDiv.style.width = toppingSize + "px";
+            topDiv.style.height = toppingSize + "px";
+            topDiv.style.borderRadius = "50%";
+            topDiv.style.position = "absolute";
+            topDiv.style.background = color;
+
+            // horizontal inside icing
+            topDiv.style.left = `${startX + i * (toppingSize + gap)}px`;
+            // vertical centered inside icing
+            topDiv.style.top = `${(topLayerIcing.offsetHeight - toppingSize) / 2}px`;
+
+            topLayerIcing.appendChild(topDiv);
+        }
+    }
 }
 
 
-  // toppings
-  document.querySelectorAll("input[name='toppings']:checked").forEach((t, idx) => {
-    const topDiv = document.createElement("div");
-    topDiv.className = `cake-topping ${t.value}`;
-    topDiv.style.background = colorMap[t.value] || 'pink';
-    topDiv.style.left = `${30 + idx * 40}px`;
-    preview.appendChild(topDiv);
-  });
 }
 
 function updateChips() {
@@ -149,6 +242,7 @@ form.addEventListener("reset", (e) => {
   // Update everything visually
   updateAll();
 });
+
 generateBillBtn.addEventListener('click', generateBill);
 
 updateAll(); // initial draw
@@ -168,41 +262,33 @@ document.getElementById("generateBill").addEventListener("click", function () {
 });
 
 
-function generateCake() {
-  const layers = parseInt(document.getElementById("layers").value);
-  const icing = document.getElementById("icing").value;
-  const toppings = Array.from(document.querySelectorAll("input[name='toppings']:checked")).map(t => t.value);
+window.addEventListener('load', () => {
+  // Reset form to defaults
+  form.reset();
 
-  const cakePreview = document.getElementById("cakePreview");
-  cakePreview.innerHTML = ""; // clear old cake
+  // Hide bill section
+  billSection.style.display = 'none';
+  billContent.innerHTML = '';
 
-  // Build cake from bottom up
-  for (let i = 0; i < layers; i++) {
-    const sponge = document.createElement("div");
-    sponge.classList.add("cake-layer");
-    cakePreview.appendChild(sponge);
-
-    const icingLayer = document.createElement("div");
-    icingLayer.classList.add("icing-layer", icing);
-    cakePreview.appendChild(icingLayer);
-  }
-
-  // Add toppings only at the top
-  if (toppings.length > 0) {
-    const toppingContainer = document.createElement("div");
-    toppingContainer.classList.add("topping-container");
-
-    toppings.forEach(top => {
-      const topping = document.createElement("div");
-      topping.classList.add("topping", top);
-      toppingContainer.appendChild(topping);
-    });
-
-    cakePreview.appendChild(toppingContainer);
-  }
-}
+  // Update preview and chips
+  updateAll();
+});
 
 
 
+// Make toppings behave like radio buttons
+const toppingCheckboxes = document.querySelectorAll('input[name="toppings"]');
+toppingCheckboxes.forEach(cb => {
+  cb.addEventListener('change', function() {
+    if (this.checked) {
+      // Uncheck all other checkboxes
+      toppingCheckboxes.forEach(other => {
+        if (other !== this) other.checked = false;
+      });
+    }
+    updateAll(); // redraw cake preview when selection changes
+  });
+});
 
+updateAll(); // initial draw
 
