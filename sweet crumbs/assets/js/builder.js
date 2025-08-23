@@ -121,43 +121,59 @@ function renderPreview() {
   icingDiv.style.margin = '0';
   preview.appendChild(icingDiv);
 
-// Add 4 toppings aligned on top of the icing
 const topLayerIcing = preview.querySelector('.cake-icing:last-of-type');
 if (topLayerIcing) {
-    const icingWidth = topLayerIcing.offsetWidth;
-    const icingHeight = topLayerIcing.offsetHeight;
+    const checkedTopping = document.querySelector('input[name="toppings"]:checked');
+    if (checkedTopping) {
+        const count = 5; // number of toppings
+        const toppingSize = 20; // diameter
+        const gap = 10; // horizontal gap
+        const icingWidth = topLayerIcing.offsetWidth;
 
-    document.querySelectorAll("input[name='toppings']:checked").forEach(t => {
-        const count = 4; // 4 toppings
-        const toppingSize = 20; // diameter of circle
-        const gap = (icingWidth - count * toppingSize) / (count + 1); // evenly distribute
+        // total width of all toppings including gaps
+        const totalWidth = count * toppingSize + (count - 1) * gap;
+        const startX = (icingWidth - totalWidth) / 2;
+
+        // set icing position to relative to position toppings absolutely inside
+        topLayerIcing.style.position = 'relative';
+
+        // define colors
+        function lightenColor(hex, percent) {
+            let num = parseInt(hex.replace("#", ""), 16),
+                r = (num >> 16) + percent,
+                g = ((num >> 8) & 0x00FF) + percent,
+                b = (num & 0x0000FF) + percent;
+            r = Math.min(255, Math.max(0, r));
+            g = Math.min(255, Math.max(0, g));
+            b = Math.min(255, Math.max(0, b));
+            return `rgb(${r},${g},${b})`;
+        }
+
+        let color = "#fff";
+        switch (checkedTopping.value) {
+            case "macarons": color = lightenColor("#d17fa3", 40); break;
+            case "berries": color = lightenColor("#c62828", 40); break;
+            case "pistachio": color = lightenColor("#6b8e23", 40); break;
+            case "goldleaf": color = lightenColor("#d4af37", 40); break;
+        }
 
         for (let i = 0; i < count; i++) {
             const topDiv = document.createElement("div");
-            topDiv.className = `cake-topping ${t.value}`;
-            topDiv.style.width = `${toppingSize}px`;
-            topDiv.style.height = `${toppingSize}px`;
-            topDiv.style.borderRadius = "50%"; // circle
+            topDiv.className = `cake-topping ${checkedTopping.value}`;
+            topDiv.style.width = toppingSize + "px";
+            topDiv.style.height = toppingSize + "px";
+            topDiv.style.borderRadius = "50%";
             topDiv.style.position = "absolute";
+            topDiv.style.background = color;
 
-            // Set color or image
-            if (t.value === "macarons") topDiv.style.background = "#d17fa3";
-            if (t.value === "berry") topDiv.style.background = "#4b2c5e";
-            if (t.value === "cherry") topDiv.style.background = "#c62828";
-            if (t.value === "pistachio") topDiv.style.background = "#6b8e23";
-            if (t.value === "goldleaf") topDiv.style.background = "#d4af37";
+            // horizontal inside icing
+            topDiv.style.left = `${startX + i * (toppingSize + gap)}px`;
+            // vertical centered inside icing
+            topDiv.style.top = `${(topLayerIcing.offsetHeight - toppingSize) / 2}px`;
 
-            // Horizontal position: evenly spaced
-            const left = gap + i * (toppingSize + gap);
-            // Vertical position: right on top of icing
-            const top = topLayerIcing.offsetTop + icingHeight / 2 - toppingSize / 2;
-
-            topDiv.style.left = `${left}px`;
-            topDiv.style.top = `${top}px`;
-
-            preview.appendChild(topDiv);
+            topLayerIcing.appendChild(topDiv);
         }
-    });
+    }
 }
 
 
